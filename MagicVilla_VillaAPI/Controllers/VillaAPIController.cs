@@ -14,19 +14,30 @@ namespace MagicVilla_VillaAPI.Controllers
 		//Endpoint. For getting the List of Villas.
 		//Swagger will identify this Endpoint as a GET Endpoint.
 		[HttpGet]
-		public IEnumerable<VillaDTO> GetVillas()
+		public ActionResult<IEnumerable<VillaDTO>> GetVillas()
 		{
-			return VillaStore.villaList;
+			return Ok(VillaStore.villaList);
 		}
 
 		//Endpoint. For getting one specific Villa.
 		//or [HttpGet("{id:int}")] then id must be a integer.
 		[HttpGet("id")]
-		public VillaDTO GetVilla(int id)
+		public ActionResult<VillaDTO> GetVilla(int id)
 		{
+			if (id == 0)
+			{
+				return BadRequest();
+			}
+
 			VillaDTO villa = new VillaDTO();
 			villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
-			return villa;
+
+			if (villa == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(villa);
 		}
 	}
 }
