@@ -116,5 +116,9 @@ namespace MagicVilla_VillaAPI.Controllers
 
 			return NoContent();
 		}
+
+		//Endpoint. Will Update just one.
+		//[HttpPatch]
+
 	}
 }
