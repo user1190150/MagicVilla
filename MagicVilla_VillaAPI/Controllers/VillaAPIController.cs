@@ -11,6 +11,20 @@ namespace MagicVilla_VillaAPI.Controllers
 	[ApiController]
 	public class VillaAPIController : ControllerBase
 	{
+		/** ILogger???
+		 * ILogger<VillaAPIController> means:
+		 * "Give me a logger that is specifically for this controller."
+         * ASP.NET Core automatically gives us an implementation when we request ILogger<T>
+         * via dependency injection (DI).
+		 */
+
+		private readonly ILogger<VillaAPIController> _logger;
+
+		public VillaAPIController(ILogger<VillaAPIController> logger)
+		{
+			_logger = logger;
+		}
+
 
 		//Endpoint. For getting the List of Villas.
 		//Swagger will identify this Endpoint as a GET Endpoint.
@@ -18,6 +32,7 @@ namespace MagicVilla_VillaAPI.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		public ActionResult<IEnumerable<VillaDTO>> GetVillas()
 		{
+			_logger.LogInformation("Getting all villas");
 			return Ok(VillaStore.villaList);
 		}
 
@@ -31,6 +46,7 @@ namespace MagicVilla_VillaAPI.Controllers
 		{
 			if (id == 0)
 			{
+				_logger.LogError("Get Villa Error with Id" + id);
 				return BadRequest();
 			}
 
