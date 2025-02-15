@@ -13,6 +13,7 @@ namespace MagicVilla_VillaAPI.Controllers
 	[ApiController]
 	public class VillaAPIController : ControllerBase
 	{
+		protected APIResponse _response;
 		private readonly IVillaRepository _dbVilla;
 		private readonly IMapper _mapper;
 
@@ -20,6 +21,7 @@ namespace MagicVilla_VillaAPI.Controllers
 		{
 			_dbVilla = dbVilla;
 			_mapper = mapper;
+			this._response = new();
 		}
 
 		[HttpGet]
