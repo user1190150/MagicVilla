@@ -6,6 +6,7 @@ using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -26,10 +27,12 @@ namespace MagicVilla_VillaAPI.Controllers
 
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
-		public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
+		public async Task<ActionResult<APIResponse>> GetVillas()
 		{
 			IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
-			return Ok(_mapper.Map<List<VillaDTO>>(villaList));
+			_response.Result = _mapper.Map<List<VillaDTO>>(villaList);
+			_response.StatusCode = HttpStatusCode.OK;
+			return Ok(_response);
 		}
 
 		[HttpGet("{id:int}", Name = "GetVilla")]
