@@ -114,7 +114,7 @@ namespace MagicVilla_VillaAPI.Controllers
 		[HttpPut("{id:int}", Name = "UpdateVilla")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
+		public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
 		{
 			if (updateDTO == null || id != updateDTO.Id)
 			{
@@ -124,8 +124,10 @@ namespace MagicVilla_VillaAPI.Controllers
 			Villa model = _mapper.Map<Villa>(updateDTO);
 
 			await _dbVilla.UpdateAsync(model);
+			_response.StatusCode = HttpStatusCode.NoContent;
+			_response.IsSuccess = true;
 
-			return NoContent();
+			return Ok(_response);
 		}
 
 		[HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
